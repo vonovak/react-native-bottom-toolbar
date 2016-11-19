@@ -23,7 +23,8 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 
 ![Example 1](https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/one.png "Example 1")
 
-```{Platform.isIos && <BottomToolbar // from react-native-platforms 
+```
+{Platform.isIos && <BottomToolbar // from react-native-platforms 
     onPress={this.onToolbarPress}
     actions={
         [
