@@ -71,7 +71,8 @@ propTypes = {
     color: PropTypes.string,
 
     /*
-    * if onPress, size, color, font are provided in the action, they override the ones passed directly to the component
+    * if onPress, size, color, font are provided in the action,
+    * they override the ones passed directly to the component
     * */
     actions: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
