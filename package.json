@@ -1,0 +1,33 @@
+{
+  "name": "react-native-bottom-toolbar",
+  "version": "0.1.0",
+  "description": "Bottom toolbar styled as in iOS, implemented in JS. Configurable text, icons and events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vonovak/react-native-bottom-toolbar.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "ios",
+    "toolbar",
+    "bottom",
+    "bar",
+    "tabs",
+    "bottom",
+    "toolbar"
+  ],
+  "author": "Vojtech Novak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vonovak/react-native-bottom-toolbar/issues"
+  },
+  "dependencies": {
+    "react-native-vector-icons": "^3.0.0"
+  },
+  "homepage": "https://github.com/vonovak/react-native-bottom-toolbar#readme"
+}
