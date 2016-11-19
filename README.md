@@ -20,8 +20,8 @@ import BottomToolbar from 'react-native-bottom-toolbar'
     }
 />
 ```
+<img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/one.png" width="500" />
 
-![Example 1](https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/one.png "Example 1")
 
 ```
 {Platform.isIos && <BottomToolbar // from react-native-platforms 
@@ -36,8 +36,7 @@ import BottomToolbar from 'react-native-bottom-toolbar'
     }
 />}
 ```
-
-![Example 2](https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png "Example 2")
+<img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png" width="500" />
 
 
 ### Configuration:
