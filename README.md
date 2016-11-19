@@ -13,7 +13,8 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 <BottomToolbar
     actions={
         [
-            {title: 'Edit  ', onPress: ()=>gotoEditProject(...)}, // note the extra spaces needed for perfect alignment
+            // note the extra spaces needed for perfect alignment
+            {title: 'Edit  ', onPress: ()=>gotoEditProject(...)}, 
             {title: 'Copy ULR', onPress: ()=>copyProjectUrl(...)},
             {title: 'Delete', onPress: ()=>deleteProj(...)},
         ]
