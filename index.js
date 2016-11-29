@@ -17,6 +17,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Text,
+    ActionSheetIOS,
 } from 'react-native';
 
 const renderIcon = (font: string, name: string, size: number, color: string) => {
@@ -51,7 +52,8 @@ const BottomToolbar = (props: Object) => {
             <View style={styles.columnWrap}>
                 {
                     actions.map((action: Object, index: number) => {
-                        const onActionPress = action.onPress || onPress;
+                        let onActionPress = (action.actions && showActionSheet(action)) || action.onPress || onPress;
+
                         const content = action.iconName ?
                             renderIcon(action.font || font, action.iconName, action.size || size, action.color || color)
                             : <Text style={[styles.text, textStyle]}>{action.title}</Text>
@@ -71,6 +73,26 @@ const BottomToolbar = (props: Object) => {
         </View>
     )
 }
+
+const showActionSheet = (action) => {
+    let actions = action.actions
+    let options = actions.map(action => action.title)
+    let styles = actions.map(it => it.style)
+    let destrIndex = styles.indexOf('destructive')
+    let cancelIndex = styles.indexOf('cancel')
+    // todo warn if -1
+
+    ActionSheetIOS.showActionSheetWithOptions({
+            options,
+            cancelButtonIndex: cancelIndex,
+            destructiveButtonIndex: destrIndex,
+        },
+        (buttonIndex: number) => {
+            let fncToCall = actions[buttonIndex].onPress || action.onPress
+            fncToCall(buttonIndex, options[buttonIndex])
+        });
+};
+
 
 export default BottomToolbar;
 
@@ -105,6 +127,10 @@ BottomToolbar.propTypes = {
      * */
     actions: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
+        actions: PropTypes.arrayOf(PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            onPress: PropTypes.func,
+        })),
         iconName: PropTypes.string,
         /*
          * custom identifier if needed
