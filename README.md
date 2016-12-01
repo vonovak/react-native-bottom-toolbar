@@ -39,6 +39,11 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png" width="500" />
 
+```
+
+```
+
+<img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/three.png" width="500" />
 
 ### Configuration:
 
