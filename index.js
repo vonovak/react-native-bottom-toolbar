@@ -114,6 +114,7 @@ BottomToolbar.propTypes = {
         actions: PropTypes.arrayOf(PropTypes.shape({
             title: PropTypes.string.isRequired,
             onPress: PropTypes.func,
+            style: PropTypes.oneOf(['cancel', 'destructive']),
         })),
         iconName: PropTypes.string,
         /*

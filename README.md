@@ -39,8 +39,39 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png" width="500" />
 
-```
 
+You can also use nested actions, in which case they will be displayed in ActionSheetIOS.
+
+```
+const nestedActions = [
+    {
+        title: 'Analyze', onPress: (index: number, title: string) => {
+            console.log(`pressed ${index} ${title}`)
+        }
+    },
+    {
+        title: 'Delete', style: 'destructive', onPress: (index: number, title: string) => {
+            console.log(`pressed ${index} ${title}`)
+        }
+    },
+    {
+        title: 'Cancel', style: 'cancel', onPress: (index: number, title: string) => {
+            console.log(`pressed ${index} ${title}`)
+        }
+    }
+]
+        
+<BottomToolbar // from react-native-platforms 
+    onPress={this.onToolbarPress}
+    actions={
+        [
+            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,
+            {title: 'More', iconName: 'ios-albums-outline', actions: nestedActions },
+            {title: 'Download', iconName: 'ios-download-outline'},
+        ]
+    }
+/>}
 ```
 
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/three.png" width="500" />
@@ -52,22 +83,18 @@ The component accepts the following props:
 ```
 propTypes = {
     /*
-    * font family from react-native-vector icons
-    * */
+     * font family from react-native-vector icons
+     * */
     font: PropTypes.string,
-
     /*
-    * icon size
-    * */
+     * icon size
+     * */
     size: PropTypes.number,
-    
-    
     /*
-    * onPress for handling icon or text press
-    * receives (index: number, title: string, id: ?string)
-    * */
+     * onPress for handling icon or text press
+     * receives (index: number, title: string, id: ?string)
+     * */
     onPress: PropTypes.func,
-    
     /*
      * custom styles
      * */
@@ -75,17 +102,23 @@ propTypes = {
     textStyle: PropTypes.object,
     buttonStyle: PropTypes.object,
     color: PropTypes.string,
-
     /*
-    * if onPress, size, color, font are provided in the action,
-    * they override the ones passed directly to the component
-    * */
+     * if onPress, size, color, font are provided in the action, they override the ones passed directly to the component
+     * */
     actions: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
+        /*
+         * nested actions
+         * */
+        actions: PropTypes.arrayOf(PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            onPress: PropTypes.func,
+            style: PropTypes.oneOf(['cancel', 'destructive']),
+        })),
         iconName: PropTypes.string,
         /*
-        * custom identifier if needed
-        * */
+         * custom identifier if needed
+         * */
         id: PropTypes.string,
         onPress: PropTypes.func,
         color: PropTypes.string,
