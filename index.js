@@ -11,7 +11,6 @@ import OcticonIcon from 'react-native-vector-icons/Octicons';
 import ZocialIcon from 'react-native-vector-icons/Zocial';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
-
 import {
     View,
     StyleSheet,
@@ -19,7 +18,6 @@ import {
     Text,
     ActionSheetIOS,
 } from 'react-native';
-
 const renderIcon = (font: string, name: string, size: number, color: string) => {
     switch (font) {
         case 'ionicons':
@@ -42,22 +40,18 @@ const renderIcon = (font: string, name: string, size: number, color: string) => 
             return <IoniconIcon name={name} size={size} color={color}/>;
     }
 }
-
 const BottomToolbar = (props: Object) => {
-
     const {actions, onPress, font, size, color, textStyle, buttonStyle, wrapperStyle} = props
-
     return (
         <View style={[styles.wrapper, wrapperStyle]}>
             <View style={styles.columnWrap}>
                 {
                     actions.map((action: Object, index: number) => {
-                        let onActionPress = (action.actions && showActionSheet(action)) || action.onPress || onPress;
-
+                        let fnc = () => showActionSheet(action)
+                        let onActionPress = (action.actions && fnc) || action.onPress || onPress;
                         const content = action.iconName ?
                             renderIcon(action.font || font, action.iconName, action.size || size, action.color || color)
                             : <Text style={[styles.text, textStyle]}>{action.title}</Text>
-
                         return (
                             <TouchableOpacity
                                 style={[styles.buttonDefaults, buttonStyle]}
@@ -73,7 +67,6 @@ const BottomToolbar = (props: Object) => {
         </View>
     )
 }
-
 const showActionSheet = (action) => {
     let actions = action.actions
     let options = actions.map(action => action.title)
@@ -81,7 +74,6 @@ const showActionSheet = (action) => {
     let destrIndex = styles.indexOf('destructive')
     let cancelIndex = styles.indexOf('cancel')
     // todo warn if -1
-
     ActionSheetIOS.showActionSheetWithOptions({
             options,
             cancelButtonIndex: cancelIndex,
@@ -92,28 +84,21 @@ const showActionSheet = (action) => {
             fncToCall(buttonIndex, options[buttonIndex])
         });
 };
-
-
 export default BottomToolbar;
-
 BottomToolbar.propTypes = {
     /*
      * font family from react-native-vector icons
      * */
     font: PropTypes.string,
-
     /*
      * icon size
      * */
     size: PropTypes.number,
-
-
     /*
      * onPress for handling icon or text press
      * receives (index: number, title: string, id: ?string)
      * */
     onPress: PropTypes.func,
-
     /*
      * custom styles
      * */
@@ -121,7 +106,6 @@ BottomToolbar.propTypes = {
     textStyle: PropTypes.object,
     buttonStyle: PropTypes.object,
     color: PropTypes.string,
-
     /*
      * if onPress, size, color, font are provided in the action, they override the ones passed directly to the component
      * */
@@ -142,7 +126,6 @@ BottomToolbar.propTypes = {
         size: PropTypes.number,
     })),
 }
-
 BottomToolbar.defaultProps = {
     color: '#007AFF',
     font: 'ionicons',
@@ -154,7 +137,6 @@ BottomToolbar.defaultProps = {
     textStyle: {},
     buttonStyle: {},
 }
-
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: 'rgba(245,245,245,1)',
@@ -179,4 +161,3 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     }
 });
-
