@@ -1,6 +1,6 @@
 # react-native-bottom-toolbar
 
-Bottom toolbar styled as in iOS, implemented in JS as a pure component. Configurable with text or icons from `react-native-vector-icons`.
+Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly configurable with text or icons from `react-native-vector-icons` and nested action that display in ActionSheetIOS (ios only).
 
 
 ### Installation & usage
@@ -29,9 +29,9 @@ import BottomToolbar from 'react-native-bottom-toolbar'
     onPress={this.onToolbarPress}
     actions={
         [
-            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,
-            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,
-            {title: 'Delete', iconName: 'ios-trash-outline',
+            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,}
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,}
+            {title: 'Delete', iconName: 'ios-trash-outline',}
             {title: 'Download', iconName: 'ios-download-outline'},
         ]
     }
@@ -65,8 +65,8 @@ const nestedActions = [
     onPress={this.onToolbarPress}
     actions={
         [
-            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,
-            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,
+            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,}
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,}
             {title: 'More', iconName: 'ios-albums-outline', actions: nestedActions },
             {title: 'Download', iconName: 'ios-download-outline'},
         ]
