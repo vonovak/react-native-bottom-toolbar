@@ -78,55 +78,7 @@ const nestedActions = [
 
 ### Configuration:
 
-The component accepts the following props:
-
-```
-propTypes = {
-    /*
-     * font family from react-native-vector icons
-     * */
-    font: PropTypes.string,
-    /*
-     * icon size
-     * */
-    size: PropTypes.number,
-    /*
-     * onPress for handling icon or text press
-     * receives (index: number, title: string, id: ?string)
-     * */
-    onPress: PropTypes.func,
-    /*
-     * custom styles
-     * */
-    wrapperStyle: PropTypes.object,
-    textStyle: PropTypes.object,
-    buttonStyle: PropTypes.object,
-    color: PropTypes.string,
-    /*
-     * if onPress, size, color, font are provided in the action, they override the ones passed directly to the component
-     * */
-    actions: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        /*
-         * nested actions
-         * */
-        actions: PropTypes.arrayOf(PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            onPress: PropTypes.func,
-            style: PropTypes.oneOf(['cancel', 'destructive']),
-        })),
-        iconName: PropTypes.string,
-        /*
-         * custom identifier if needed
-         * */
-        id: PropTypes.string,
-        onPress: PropTypes.func,
-        color: PropTypes.string,
-        font: PropTypes.string,
-        size: PropTypes.number,
-    })),
-}
-```
+The component accepts these [props](https://github.com/vonovak/react-native-bottom-toolbar/blob/master/index.js#L98).
 
 ### Defaults:
 
