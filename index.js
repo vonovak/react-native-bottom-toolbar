@@ -18,6 +18,7 @@ import {
     Text,
     ActionSheetIOS,
 } from 'react-native';
+
 const renderIcon = (font: string, name: string, size: number, color: string) => {
     switch (font) {
         case 'ionicons':
@@ -40,26 +41,30 @@ const renderIcon = (font: string, name: string, size: number, color: string) => 
             return <IoniconIcon name={name} size={size} color={color}/>;
     }
 }
-const BottomToolbar = (props: Object) => {
-    const {actions, onPress, font, size, color, textStyle, buttonStyle, wrapperStyle} = props
+
+const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonStyle, wrapperStyle, disabledColor}) => {
     return (
         <View style={[styles.wrapper, wrapperStyle]}>
             <View style={styles.columnWrap}>
                 {
                     actions.map((action: Object, index: number) => {
-                        let fnc = () => showActionSheet(action)
-                        let onActionPress = (action.actions && fnc) || action.onPress || onPress;
+                        const fnc = () => showActionSheet(action)
+                        const onActionPress = (action.actions && fnc) || action.onPress || onPress;
+                        const iconColor = action.disabled ? disabledColor : action.color || color
+
                         const content = action.iconName ?
-                            renderIcon(action.font || font, action.iconName, action.size || size, action.color || color)
-                            : <Text style={[styles.text, textStyle]}>{action.title}</Text>
+                            renderIcon(action.font || font, action.iconName, action.size || size, iconColor)
+                            : <Text style={[styles.text, action.disabled && {color: disabledColor}, textStyle]}>{action.title}</Text>
+
+                        const Element = action.disabled ? View : TouchableOpacity
                         return (
-                            <TouchableOpacity
+                            <Element
                                 style={[styles.buttonDefaults, buttonStyle]}
                                 key={`${action.title}_${index}`}
                                 onPress={() => onActionPress(index, action.title, action.id)}
                             >
                                 {content}
-                            </TouchableOpacity>
+                            </Element>
                         );
                     })
                 }
@@ -67,6 +72,7 @@ const BottomToolbar = (props: Object) => {
         </View>
     )
 }
+
 const showActionSheet = (action) => {
     let actions = action.actions
     let options = actions.map(action => action.title)
@@ -78,13 +84,17 @@ const showActionSheet = (action) => {
             options,
             cancelButtonIndex: cancelIndex,
             destructiveButtonIndex: destrIndex,
+            title: action.actionSheetTitle,
+            message: action.actionSheetMessage,
         },
         (buttonIndex: number) => {
             let fncToCall = actions[buttonIndex].onPress || action.onPress
             fncToCall(buttonIndex, options[buttonIndex])
         });
 };
+
 export default BottomToolbar;
+
 BottomToolbar.propTypes = {
     /*
      * font family from react-native-vector icons
@@ -106,38 +116,54 @@ BottomToolbar.propTypes = {
     textStyle: PropTypes.object,
     buttonStyle: PropTypes.object,
     color: PropTypes.string,
+    disabledColor: PropTypes.string,
+
     /*
-     * if onPress, size, color, font are provided in the action, they override the ones passed directly to the component
+     * the actions:
+     * if onPress, size, color, font are provided in the action, they override the ones passed to the component
      * */
     actions: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
-        actions: PropTypes.arrayOf(PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            onPress: PropTypes.func,
-            style: PropTypes.oneOf(['cancel', 'destructive']),
-        })),
         iconName: PropTypes.string,
         /*
          * custom identifier if needed
          * */
         id: PropTypes.string,
+        disabled: PropTypes.bool,
         onPress: PropTypes.func,
         color: PropTypes.string,
         font: PropTypes.string,
         size: PropTypes.number,
+
+        /*
+         * for the nested actions that are displayed in an actionSheet:
+         * */
+        actionSheetTitle: PropTypes.string,
+        actionSheetMessage: PropTypes.string,
+        actions: PropTypes.arrayOf(PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            onPress: PropTypes.func,
+            style: PropTypes.oneOf(['cancel', 'destructive']),
+        })),
     })),
 }
+
 BottomToolbar.defaultProps = {
     color: '#007AFF',
+    disabledColor: "grey",
     font: 'ionicons',
-    size: 25,
+    size: 28,
     onPress: (index: number, title: string, id: ?string) => {
     },
-    actions: [],
     wrapperStyle: {},
     textStyle: {},
     buttonStyle: {},
+
+    actionSheetTitle: null,
+    actionSheetMessage: null,
+    actions: [],
 }
+
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: 'rgba(245,245,245,1)',
@@ -156,6 +182,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
+        fontSize: 17,
         color: '#007AFF',
     },
     buttonDefaults: {
