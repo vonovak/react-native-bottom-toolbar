@@ -42,8 +42,8 @@ const renderIcon = (font: string, name: string, size: number, color: string) => 
     }
 }
 
-const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonStyle, wrapperStyle, disabledColor}) => {
-    return (
+const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonStyle, wrapperStyle, disabledColor, showIf}) => {
+    return showIf ? (
         <View style={[styles.wrapper, wrapperStyle]}>
             <View style={styles.columnWrap}>
                 {
@@ -70,7 +70,7 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
                 }
             </View>
         </View>
-    )
+    ) : null
 }
 
 const showActionSheet = (action) => {
@@ -117,6 +117,7 @@ BottomToolbar.propTypes = {
     buttonStyle: PropTypes.object,
     color: PropTypes.string,
     disabledColor: PropTypes.string,
+    showIf: PropTypes.bool,
 
     /*
      * the actions:
@@ -162,6 +163,7 @@ BottomToolbar.defaultProps = {
     actionSheetTitle: null,
     actionSheetMessage: null,
     actions: [],
+    showIf: true,
 }
 
 const styles = StyleSheet.create({
