@@ -29,9 +29,9 @@ import BottomToolbar from 'react-native-bottom-toolbar'
     onPress={this.onToolbarPress}
     actions={
         [
-            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,}
-            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,}
-            {title: 'Delete', iconName: 'ios-trash-outline',}
+            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37},
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15},
+            {title: 'Delete', iconName: 'ios-trash-outline'},
             {title: 'Download', iconName: 'ios-download-outline'},
         ]
     }
