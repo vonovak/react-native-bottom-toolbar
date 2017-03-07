@@ -48,6 +48,9 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
             <View style={styles.columnWrap}>
                 {
                     actions.map((action: Object, index: number) => {
+                        if (action.hidden) {
+                            return null
+                        }
                         const fnc = () => showActionSheet(action)
                         const onActionPress = (action.actions && fnc) || action.onPress || onPress;
                         const iconColor = action.disabled ? disabledColor : action.color || color
@@ -74,9 +77,9 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
 }
 
 const showActionSheet = (action) => {
-    let actions = action.actions
-    let options = actions.map(action => action.title)
-    let styles = actions.map(it => it.style)
+    let nestedActions = action.actions.filter(it => it.hidden !== true)
+    let options = nestedActions.map(action => action.title)
+    let styles = nestedActions.map(it => it.style)
     let destrIndex = styles.indexOf('destructive')
     let cancelIndex = styles.indexOf('cancel')
     // todo warn if -1
@@ -88,7 +91,7 @@ const showActionSheet = (action) => {
             message: action.actionSheetMessage,
         },
         (buttonIndex: number) => {
-            let fncToCall = actions[buttonIndex].onPress || action.onPress
+            let fncToCall = nestedActions[buttonIndex].onPress || action.onPress
             fncToCall(buttonIndex, options[buttonIndex])
         });
 };
@@ -131,6 +134,7 @@ BottomToolbar.propTypes = {
          * */
         id: PropTypes.string,
         disabled: PropTypes.bool,
+        hidden: PropTypes.bool,
         onPress: PropTypes.func,
         color: PropTypes.string,
         font: PropTypes.string,
@@ -144,6 +148,7 @@ BottomToolbar.propTypes = {
         actions: PropTypes.arrayOf(PropTypes.shape({
             title: PropTypes.string.isRequired,
             onPress: PropTypes.func,
+            hidden: PropTypes.bool,
             style: PropTypes.oneOf(['cancel', 'destructive']),
         })),
     })),
