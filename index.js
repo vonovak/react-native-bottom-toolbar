@@ -52,7 +52,7 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
                             return null
                         }
                         const fnc = () => showActionSheet(action)
-                        const onActionPress = (action.actions && fnc) || action.onPress || onPress;
+                        const onActionPress = (action.nestedActions && fnc) || action.onPress || onPress;
                         const iconColor = action.disabled ? disabledColor : action.color || color
 
                         const content = action.iconName ?
@@ -77,8 +77,8 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
 }
 
 const showActionSheet = (action) => {
-    let nestedActions = action.actions.filter(it => it.hidden !== true)
-    let options = nestedActions.map(action => action.title)
+    let nestedActions = action.nestedActions.filter(it => it.hidden !== true)
+    let options = nestedActions.map(it => it.title)
     let styles = nestedActions.map(it => it.style)
     let destrIndex = styles.indexOf('destructive')
     let cancelIndex = styles.indexOf('cancel')
@@ -145,7 +145,7 @@ BottomToolbar.propTypes = {
          * */
         actionSheetTitle: PropTypes.string,
         actionSheetMessage: PropTypes.string,
-        actions: PropTypes.arrayOf(PropTypes.shape({
+        nestedActions: PropTypes.arrayOf(PropTypes.shape({
             title: PropTypes.string.isRequired,
             onPress: PropTypes.func,
             hidden: PropTypes.bool,
