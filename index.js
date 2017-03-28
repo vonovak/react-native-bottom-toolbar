@@ -53,13 +53,14 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
                         }
                         const fnc = () => showActionSheet(action)
                         const onActionPress = (action.nestedActions && fnc) || action.onPress || onPress;
-                        const iconColor = action.disabled ? disabledColor : action.color || color
+                        const disabled = nestedActionsHidden(action) || action.disabled
+                        const iconColor = disabled ? disabledColor : action.color || color
 
                         const content = action.iconName ?
                             renderIcon(action.font || font, action.iconName, action.size || size, iconColor)
-                            : <Text style={[styles.text, action.disabled && {color: disabledColor}, textStyle]}>{action.title}</Text>
+                            : <Text style={[styles.text, disabled && {color: disabledColor}, textStyle]}>{action.title}</Text>
 
-                        const Element = action.disabled ? View : TouchableOpacity
+                        const Element = disabled ? View : TouchableOpacity
                         return (
                             <Element
                                 style={[styles.buttonDefaults, buttonStyle]}
@@ -74,6 +75,15 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
             </View>
         </View>
     ) : null
+}
+
+const nestedActionsHidden = (action): boolean => {
+    if (action.nestedActions) {
+        console.log(JSON.stringify(action.nestedActions))
+        return action.nestedActions.filter(it => (it.hidden !== true && it.style !== 'cancel')).length === 0
+    } else {
+        return false
+    }
 }
 
 const showActionSheet = (action) => {
