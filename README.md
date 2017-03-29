@@ -2,7 +2,7 @@
 
 Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly configurable with text or icons from `react-native-vector-icons` and nested actions that display in ActionSheetIOS (ios only). 
 
-Breaking chaange in 1.0.0 - renamed the nested actions prop
+Breaking change in 1.0.0 - renamed the nested actions prop
 
 
 ### Installation & usage
@@ -25,6 +25,12 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/one.png" width="500" />
 
+### Configuration:
+
+The component accepts these [props](https://github.com/vonovak/react-native-bottom-toolbar/blob/master/index.js#L98).
+
+
+### Examples
 
 ```
 {Platform.isIos && <BottomToolbar // from react-native-platforms 
@@ -69,7 +75,7 @@ const nestedActions = [
         [
             {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,}
             {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,}
-            {title: 'More', iconName: 'ios-albums-outline', actions: nestedActions },
+            {title: 'More', iconName: 'ios-albums-outline', nestedActions: nestedActions },
             {title: 'Download', iconName: 'ios-download-outline'},
         ]
     }
@@ -78,9 +84,6 @@ const nestedActions = [
 
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/three.png" width="500" />
 
-### Configuration:
-
-The component accepts these [props](https://github.com/vonovak/react-native-bottom-toolbar/blob/master/index.js#L98).
 
 ### Defaults:
 
