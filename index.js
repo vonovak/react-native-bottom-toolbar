@@ -79,7 +79,6 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
 
 const nestedActionsHidden = (action): boolean => {
     if (action.nestedActions) {
-        console.log(JSON.stringify(action.nestedActions))
         return action.nestedActions.filter(it => (it.hidden !== true && it.style !== 'cancel')).length === 0
     } else {
         return false
