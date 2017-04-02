@@ -1,6 +1,6 @@
 # react-native-bottom-toolbar
 
-Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly configurable with text or icons from `react-native-vector-icons` and nested actions that display in ActionSheetIOS (ios only). 
+Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly configurable with text or icons from `react-native-vector-icons` and nested actions that display in ActionSheetIOS (iOS only). 
 
 Breaking change in 1.0.0 - renamed the nested actions prop
 
@@ -27,7 +27,7 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 
 ### Configuration:
 
-The component accepts these [props](https://github.com/vonovak/react-native-bottom-toolbar/blob/master/index.js#L98).
+The component accepts these [props](https://github.com/vonovak/react-native-bottom-toolbar/blob/master/index.js#L110).
 
 
 ### Examples
@@ -69,7 +69,7 @@ const nestedActions = [
     }
 ]
         
-<BottomToolbar // from react-native-platforms 
+<BottomToolbar 
     onPress={this.onToolbarPress}
     actions={
         [
