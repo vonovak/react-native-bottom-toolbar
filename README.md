@@ -4,6 +4,8 @@ Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly c
 
 Breaking change in 1.0.0 - renamed the nested actions prop
 
+Breaking change in 2.0.0 - changed the signature of the onPress function
+
 
 ### Installation & usage
 
@@ -37,18 +39,17 @@ The component accepts these [props](https://github.com/vonovak/react-native-bott
     onPress={this.onToolbarPress}
     actions={
         [
-            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37},
-            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15},
-            {title: 'Delete', iconName: 'ios-trash-outline'},
-            {title: 'Download', iconName: 'ios-download-outline'},
+            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37, myImportantObject: 'wow' },
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15, myImportantObject: 'wow2' },
+            {title: 'Delete', iconName: 'ios-trash-outline', myImportantObject: 'wow3' },
+            {title: 'Download', iconName: 'ios-download-outline', myImportantObject: 'wow4' },
         ]
     }
 />}
 
 onToolbarPress = (index: number, actionPressed: Object) => {
-    // index = index into the array of actions / nestedActions
-    // actionPressed = the action / nested action object - so whatever you defined 
-    // on the action object that you passed in, you can read here
+    console.log(`pressed ${index} with ${actionPressed.myImportantObject}`)
+    // prints `pressed 0 with wow` for the `Mark All` action
 }
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png" width="500" />
@@ -65,12 +66,12 @@ const nestedActions = [
     },
     {
         title: 'Delete', style: 'destructive', onPress: (index: number, actionPressed: Object) => {
-            console.log(`pressed ${index} with icon ${actionPressed.iconName}`)
+            console.log(`pressed ${index} with title ${actionPressed.title}`)
         }
     },
     {
         title: 'Cancel', style: 'cancel', onPress: (index: number, actionPressed: Object) => {
-            console.log(`pressed ${index} with ${actionPressed.yourCustomProperty}`)
+            console.log(`pressed ${index} with title ${actionPressed.title}`)
         }
     }
 ]
