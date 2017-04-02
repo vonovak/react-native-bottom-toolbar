@@ -19,6 +19,8 @@ import {
     ActionSheetIOS,
 } from 'react-native';
 
+type ActionType = Object
+
 const renderIcon = (font: string, name: string, size: number, color: string) => {
     switch (font) {
         case 'ionicons':
@@ -47,13 +49,13 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
         <View style={[styles.wrapper, wrapperStyle]}>
             <View style={styles.columnWrap}>
                 {
-                    actions.map((action: Object, index: number) => {
+                    actions.map((action: ActionType, index: number) => {
                         if (action.hidden) {
                             return null
                         }
-                        const fnc = () => showActionSheet(action)
+                        const fnc = () => showActionSheet(action, onPress)
                         const onActionPress = (action.nestedActions && fnc) || action.onPress || onPress;
-                        const disabled = nestedActionsHidden(action) || action.disabled
+                        const disabled = isDisabled(action)
                         const iconColor = disabled ? disabledColor : action.color || color
 
                         const content = action.iconName ?
@@ -77,15 +79,16 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
     ) : null
 }
 
-const nestedActionsHidden = (action): boolean => {
+const isDisabled = (action: ActionType): boolean => {
     if (action.nestedActions) {
-        return action.nestedActions.filter(it => (it.hidden !== true && it.style !== 'cancel')).length === 0
+        const allAreHidden = action.nestedActions.filter(it => (it.hidden !== true && it.style !== 'cancel')).length === 0
+        return allAreHidden || action.disabled
     } else {
-        return false
+        return action.disabled
     }
 }
 
-const showActionSheet = (action) => {
+const showActionSheet = (action: ActionType, rootOnPress: (index: number, nestedAction: Object) => void) => {
     let nestedActions = action.nestedActions.filter(it => it.hidden !== true)
     let options = nestedActions.map(it => it.title)
     let styles = nestedActions.map(it => it.style)
@@ -100,7 +103,7 @@ const showActionSheet = (action) => {
             message: action.actionSheetMessage,
         },
         (buttonIndex: number) => {
-            let fncToCall = nestedActions[buttonIndex].onPress || action.onPress
+            let fncToCall = nestedActions[buttonIndex].onPress || action.onPress || rootOnPress
             fncToCall(buttonIndex, nestedActions[buttonIndex])
         });
 };
@@ -164,7 +167,7 @@ BottomToolbar.defaultProps = {
     disabledColor: "grey",
     font: 'ionicons',
     size: 28,
-    onPress: (index: number, action: Object) => {
+    onPress: (index: number, action: ActionType) => {
     },
     wrapperStyle: {},
     textStyle: {},

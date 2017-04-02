@@ -1,6 +1,6 @@
 # react-native-bottom-toolbar
 
-Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly configurable with text or icons from `react-native-vector-icons` and nested actions that display in ActionSheetIOS (iOS only). 
+Bottom toolbar styled as in iOS, implemented in JS as a pure component. Highly configurable with text or icons from `react-native-vector-icons` and nested actions that display in ActionSheetIOS (iOS only). You can specify event handlers and easily hide / disable (make grey) the items.
 
 Breaking change in 1.0.0 - renamed the nested actions prop
 
@@ -27,9 +27,15 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/one.png" width="500" />
 
-### Configuration:
+### Configuration
 
 The component accepts these [props](https://github.com/vonovak/react-native-bottom-toolbar/blob/master/index.js#L110).
+
+The `onPress` function can be specified on three different levels: you may pass it as a prop to the component itself (see the first example), you may include it in the `action` (see the first example), or may include it in the `nested action` (see the second example).
+
+The function has to be specified on at least one level. You may combine the levels together - the `onPress` of a `nested action` overrides the `onPress` of an `action`, and the `onPress` of an action overrides the `onPress` of the component. This gives you a lot of flexibility - you can have one event handler for all actions and nested actions, or you can specify the handlers separately. The `onPress` function always receives the `action` / `nested action` it was triggered from, so you can easily distinguish the event source.
+
+I suggest you pick an approach that works best for a given scenario and stick with it so you keep you code easy to understand.
 
 
 ### Examples
@@ -40,7 +46,11 @@ The component accepts these [props](https://github.com/vonovak/react-native-bott
     actions={
         [
             {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37, myImportantObject: 'wow' },
-            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15, myImportantObject: 'wow2' },
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15, myImportantObject: 'wow2', 
+                onPress: ()=>{ 
+                    // overrides onToolbarPress 
+                } 
+            },
             {title: 'Delete', iconName: 'ios-trash-outline', myImportantObject: 'wow3' },
             {title: 'Download', iconName: 'ios-download-outline', myImportantObject: 'wow4' },
         ]
@@ -61,16 +71,19 @@ You can also use nested actions, in which case they will be displayed in ActionS
 const nestedActions = [
     {
         title: 'Analyze', onPress: (index: number, actionPressed: Object) => {
+            // overrides onToolbarPress 
             console.log(`pressed ${index} with title ${actionPressed.title}`)
         }
     },
     {
         title: 'Delete', style: 'destructive', onPress: (index: number, actionPressed: Object) => {
+            // overrides onToolbarPress 
             console.log(`pressed ${index} with title ${actionPressed.title}`)
         }
     },
     {
         title: 'Cancel', style: 'cancel', onPress: (index: number, actionPressed: Object) => {
+            // overrides onToolbarPress 
             console.log(`pressed ${index} with title ${actionPressed.title}`)
         }
     }

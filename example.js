@@ -28,8 +28,6 @@ export default class toolbartest extends Component {
                         Press Cmd+R to reload,{'\n'}
                         Cmd+D or shake for dev menu
                     </Text>
-
-
                 </View>
                 <BottomToolbar
                     actions={
