@@ -65,7 +65,7 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
                             <Element
                                 style={[styles.buttonDefaults, buttonStyle]}
                                 key={`${action.title}_${index}`}
-                                onPress={() => onActionPress(index, action.title, action.id)}
+                                onPress={() => onActionPress(index, action)}
                             >
                                 {content}
                             </Element>
@@ -101,7 +101,7 @@ const showActionSheet = (action) => {
         },
         (buttonIndex: number) => {
             let fncToCall = nestedActions[buttonIndex].onPress || action.onPress
-            fncToCall(buttonIndex, options[buttonIndex])
+            fncToCall(buttonIndex, nestedActions[buttonIndex])
         });
 };
 
@@ -118,7 +118,7 @@ BottomToolbar.propTypes = {
     size: PropTypes.number,
     /*
      * onPress for handling icon or text press
-     * receives (index: number, title: string, id: ?string)
+     * receives (index: number, action: Object)
      * */
     onPress: PropTypes.func,
     /*
@@ -138,10 +138,6 @@ BottomToolbar.propTypes = {
     actions: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
         iconName: PropTypes.string,
-        /*
-         * custom identifier if needed
-         * */
-        id: PropTypes.string,
         disabled: PropTypes.bool,
         hidden: PropTypes.bool,
         onPress: PropTypes.func,
@@ -168,7 +164,7 @@ BottomToolbar.defaultProps = {
     disabledColor: "grey",
     font: 'ionicons',
     size: 28,
-    onPress: (index: number, title: string, id: ?string) => {
+    onPress: (index: number, action: Object) => {
     },
     wrapperStyle: {},
     textStyle: {},

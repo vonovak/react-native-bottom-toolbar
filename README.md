@@ -44,6 +44,12 @@ The component accepts these [props](https://github.com/vonovak/react-native-bott
         ]
     }
 />}
+
+onToolbarPress = (index: number, actionPressed: Object) => {
+    // index = index into the array of actions / nestedActions
+    // actionPressed = the action / nested action object - so whatever you defined 
+    // on the action object that you passed in, you can read here
+}
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png" width="500" />
 
@@ -53,18 +59,18 @@ You can also use nested actions, in which case they will be displayed in ActionS
 ```
 const nestedActions = [
     {
-        title: 'Analyze', onPress: (index: number, title: string) => {
-            console.log(`pressed ${index} ${title}`)
+        title: 'Analyze', onPress: (index: number, actionPressed: Object) => {
+            console.log(`pressed ${index} with title ${actionPressed.title}`)
         }
     },
     {
-        title: 'Delete', style: 'destructive', onPress: (index: number, title: string) => {
-            console.log(`pressed ${index} ${title}`)
+        title: 'Delete', style: 'destructive', onPress: (index: number, actionPressed: Object) => {
+            console.log(`pressed ${index} with icon ${actionPressed.iconName}`)
         }
     },
     {
-        title: 'Cancel', style: 'cancel', onPress: (index: number, title: string) => {
-            console.log(`pressed ${index} ${title}`)
+        title: 'Cancel', style: 'cancel', onPress: (index: number, actionPressed: Object) => {
+            console.log(`pressed ${index} with ${actionPressed.yourCustomProperty}`)
         }
     }
 ]
@@ -75,8 +81,8 @@ const nestedActions = [
         [
             {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,}
             {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15,}
-            {title: 'More', iconName: 'ios-albums-outline', nestedActions: nestedActions },
             {title: 'Download', iconName: 'ios-download-outline'},
+            {title: 'More', iconName: 'ios-albums-outline', nestedActions: nestedActions },
         ]
     }
 />}
