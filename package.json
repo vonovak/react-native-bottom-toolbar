@@ -1,6 +1,6 @@
 {
   "name": "react-native-bottom-toolbar",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Bottom toolbar styled as in iOS, implemented in JS. Configurable text, icons and events.",
   "main": "index.js",
   "scripts": {
