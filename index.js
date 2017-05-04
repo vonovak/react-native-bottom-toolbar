@@ -25,6 +25,8 @@ const renderIcon = (font: string, name: string, size: number, color: string) => 
     switch (font) {
         case 'ionicons':
             return <IoniconIcon name={name} size={size} color={color}/>;
+        case 'material':
+            return <MaterialIcon name={name} size={size} color={color}/>;
         case 'font-awesome':
             return <AwesomeIcon name={name} size={size} color={color}/>;
         case 'evil-icons':
