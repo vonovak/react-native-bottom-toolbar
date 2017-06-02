@@ -63,7 +63,6 @@ onToolbarPress = (index: number, actionPressed: Object) => {
 ```
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/two.png" width="500" />
 
-
 You can also use nested actions, in which case they will be displayed in ActionSheetIOS.
 
 ```
@@ -100,9 +99,33 @@ const nestedActions = [
     }
 />}
 ```
-
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/three.png" width="500" />
 
+You can custom the action content too create own button, for two icons or two text lines maybe.
+
+```
+{Platform.isIos && <BottomToolbar // from react-native-platforms 
+    onPress={this.onToolbarPress}
+    actions={
+        [
+            {title: 'Mark All', customContent:<View style={{flexDirection:'row'}}><FontAwesome name='plus' size={12} color={'#007AFF'} style={{position:'absolute',left:-11,top:3}}/><FontAwesome name='star' size={20} color={'#007AFF'} /></View>, myImportantObject: 'wow' },
+            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15, myImportantObject: 'wow2', 
+                onPress: ()=>{ 
+                    // overrides onToolbarPress 
+                } 
+            },
+            {title: 'Delete', iconName: 'ios-trash-outline', myImportantObject: 'wow3' },
+            {title: 'Download', iconName: 'ios-download-outline', myImportantObject: 'wow4' },
+        ]
+    }
+/>}
+
+onToolbarPress = (index: number, actionPressed: Object) => {
+    console.log(`pressed ${index} with ${actionPressed.myImportantObject}`)
+    // prints `pressed 0 with wow` for the `Mark All` action
+}
+```
+<img src="https://github.com/marcelglaeser/react-native-bottom-toolbar/blob/master/customContent-toolbar.png" width="500" />
 
 ### Defaults:
 

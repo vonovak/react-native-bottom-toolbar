@@ -60,9 +60,14 @@ const BottomToolbar = ({actions, onPress, font, size, color, textStyle, buttonSt
                         const disabled = isDisabled(action)
                         const iconColor = disabled ? disabledColor : action.color || color
 
-                        const content = action.iconName ?
-                            renderIcon(action.font || font, action.iconName, action.size || size, iconColor)
-                            : <Text style={[styles.text, disabled && {color: disabledColor}, textStyle]}>{action.title}</Text>
+                        var content;
+                        if(action.customContent) {
+                            content = action.customContent;
+                        } else if (action.iconName) {
+                            content = renderIcon(action.font || font, action.iconName, action.size || size, iconColor)
+                        } else {
+                            content = <Text style={[styles.text, disabled && {color: disabledColor}, textStyle]}>{action.title}</Text>
+                        }
 
                         const Element = disabled ? View : TouchableOpacity
                         return (
