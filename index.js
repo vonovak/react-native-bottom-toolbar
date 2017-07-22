@@ -82,8 +82,8 @@ export default class BottomToolbar extends React.PureComponent {
   }
 }
 
-const isDisabled = (action: ActionType): boolean => {
-  const { children, disabled } = action.props;
+const isDisabled = (child: ActionType): boolean => {
+  const { children, disabled } = child.props;
   if (children) {
     // cancel action or no action
     const onlyCancelActionPresent =
@@ -156,36 +156,42 @@ const showActionSheet = (
 
 BottomToolbar.propTypes = {
   /*
-     * font family from react-native-vector icons
-     * */
+   * font family from react-native-vector icons
+   * */
   font: PropTypes.string,
   /*
-     * icon size
-     * */
+   * icon size
+   * */
   size: PropTypes.number,
   /*
-     * onPress for handling icon or text press
-     * receives (index: number, action: Object)
-     * */
+   * onPress for handling icon or text press
+   * receives (index: number, actionProps: Object)
+   * */
   onPress: PropTypes.func,
   /*
-     * custom styles
-     * */
+   * custom styles
+   * */
   wrapperStyle: PropTypes.object,
   textStyle: PropTypes.object,
   buttonStyle: PropTypes.object,
   color: PropTypes.string,
   disabledColor: PropTypes.string,
   showIf: PropTypes.bool,
+
+  /*
+   * a function that accepts (childProps, index) and returns a component that will be rendered in the toolbar
+   * use this to render you custom content
+   * */
   customRenderer: PropTypes.func,
+
   children: PropTypes.any.isRequired,
 };
 
 Action.propTypes = {
   /*
-     * the actions:
-     * if onPress, size, color, font are provided in the action, they override the ones passed to the component
-     * */
+   * the actions:
+   * if onPress, size, color, font are provided in the action, they override the ones passed to the component
+   * */
   title: PropTypes.string.isRequired,
   iconName: PropTypes.string,
   disabled: PropTypes.bool,
@@ -195,8 +201,8 @@ Action.propTypes = {
   size: PropTypes.number,
 
   /*
-      * for the nested actions that are displayed in an actionSheet:
-      * */
+   * for the nested actions that are displayed in an ActionSheet:
+   * */
   actionSheetTitle: PropTypes.string,
   actionSheetMessage: PropTypes.string,
 };
@@ -212,13 +218,8 @@ BottomToolbar.defaultProps = {
   disabledColor: 'grey',
   font: 'ionicons',
   size: 28,
-  onPress: (index: number, action: ActionType) => {},
-  wrapperStyle: {},
-  textStyle: {},
-  buttonStyle: {},
-
-  actionSheetTitle: null,
-  actionSheetMessage: null,
+  onPress: (index: number, actionProps: ActionType) => {},
+  wrapperStyle: undefined,
   showIf: true,
 };
 

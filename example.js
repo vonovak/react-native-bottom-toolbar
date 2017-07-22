@@ -4,64 +4,61 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
-import BottomToolbar from 'react-native-bottom-toolbar'
+import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import BottomToolbar from 'react-native-bottom-toolbar';
 
 export default class toolbartest extends Component {
-    render() {
-        return (
-            <View style={{flex: 1}}>
-                <View style={styles.container}>
-                    <Text style={styles.welcome}>
-                        Welcome to React Native!
-                    </Text>
-                    <Text style={styles.instructions}>
-                        To get started, edit index.ios.js
-                    </Text>
-                    <Text style={styles.instructions}>
-                        Press Cmd+R to reload,{'\n'}
-                        Cmd+D or shake for dev menu
-                    </Text>
-                </View>
-                <BottomToolbar
-                    actions={
-                        [
-                            {title: 'Mark All', iconName: 'ios-done-all-outline', size: 37,},
-                            {title: 'Edit', iconName: 'pencil', font: 'simple', size: 15, },
-                            {title: 'Delete', iconName: 'ios-trash-outline', },
-                            {title: 'Download', iconName: 'ios-download-outline'},
-                        ]
-                    }
-                />
-
-            </View>
-        );
-    }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Text style={styles.welcome}>Welcome to React Native!</Text>
+          <Text style={styles.instructions}>To get started, edit index.ios.js</Text>
+          <Text style={styles.instructions}>
+            Press Cmd+R to reload,{'\n'}
+            Cmd+D or shake for dev menu
+          </Text>
+        </View>
+        <BottomToolbar>
+          <BottomToolbar.Action
+            title="Edit"
+            onPress={(index, propsOfThisAction) =>
+              console.log(index + ' ' + JSON.stringify(propsOfThisAction))}
+          />
+          <BottomToolbar.Action
+            title="Copy ULR"
+            onPress={(index, propsOfThisAction) =>
+              console.log(index + ' ' + JSON.stringify(propsOfThisAction))}
+          />
+          <BottomToolbar.Action
+            title="Delete"
+            onPress={(index, propsOfThisAction) =>
+              console.log(index + ' ' + JSON.stringify(propsOfThisAction))}
+          />
+        </BottomToolbar>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
 
 AppRegistry.registerComponent('toolbartest', () => toolbartest);
