@@ -14,6 +14,7 @@ import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import { View, StyleSheet, TouchableOpacity, Text, ActionSheetIOS } from 'react-native';
 
+// todo be more specific
 type ActionType = Object;
 
 class Action extends React.PureComponent {
@@ -65,90 +66,100 @@ export default class BottomToolbar extends React.PureComponent {
   }
 
   renderTabContent(childProps: Object, disabled: boolean, index: number) {
-    const { font, size, color, textStyle, disabledColor, customRenderer } = this.props;
+    const { customRenderer } = this.props;
 
     if (customRenderer) {
       return customRenderer(childProps, index);
     } else if (childProps.iconName) {
-      return renderIcon(
-        childProps.font || font,
-        childProps.iconName,
-        childProps.size || size,
-        disabled ? disabledColor : childProps.color || color
-      );
+      return this.renderIcon(childProps, disabled);
     } else {
-      return renderText(childProps, textStyle, disabled && { color: disabledColor });
+      return this.renderText(childProps, disabled);
     }
+  }
+
+  renderIcon(childProps: Object, disabled: boolean) {
+    const { font, size, color, disabledColor } = this.props;
+    const Icon = getIconClass(childProps.font || font);
+
+    return (
+      <Icon
+        name={childProps.iconName}
+        size={childProps.size || size}
+        color={disabled ? disabledColor : childProps.color || color}
+      />
+    );
+  }
+
+  renderText(childProps: Object, disabled: boolean) {
+    const { textStyle, disabledColor } = this.props;
+    return (
+      <Text style={[styles.text, textStyle, disabled && { color: disabledColor }]}>
+        {childProps.title}
+      </Text>
+    );
   }
 }
 
 const isDisabled = (child: ActionType): boolean => {
   const { children, disabled } = child.props;
   if (children) {
-    // cancel action or no action
-    const onlyCancelActionPresent =
+    const isOnlyCancelActionPresent =
       React.Children.toArray(children).find(nested => nested.props.style !== 'cancel') ===
       undefined;
-    return onlyCancelActionPresent || disabled;
+    return isOnlyCancelActionPresent || disabled;
   } else {
     return disabled;
   }
 };
 
-const renderIcon = (font: string, name: string, size: number, color: string) => {
+const getIconClass = (font: string): ReactClass<*> => {
   switch (font) {
     case 'ionicons':
-      return <IoniconIcon name={name} size={size} color={color} />;
+      return IoniconIcon;
     case 'material':
-      return <MaterialIcon name={name} size={size} color={color} />;
+      return MaterialIcon;
     case 'font-awesome':
-      return <AwesomeIcon name={name} size={size} color={color} />;
+      return AwesomeIcon;
     case 'evil-icons':
-      return <EvilIcon name={name} size={size} color={color} />;
+      return EvilIcon;
     case 'simple':
-      return <SimpleIcon name={name} size={size} color={color} />;
+      return SimpleIcon;
     case 'entypo':
-      return <EntypoIcon name={name} size={size} color={color} />;
+      return EntypoIcon;
     case 'foundation':
-      return <FoundationIcon name={name} size={size} color={color} />;
+      return FoundationIcon;
     case 'octicons':
-      return <OcticonIcon name={name} size={size} color={color} />;
+      return OcticonIcon;
     case 'zocial':
-      return <ZocialIcon name={name} size={size} color={color} />;
+      return ZocialIcon;
     default:
-      return <IoniconIcon name={name} size={size} color={color} />;
+      return IoniconIcon;
   }
 };
 
-const renderText = (childProps: Object, textStyle, colorStyle = {}) => {
-  return (
-    <Text style={[styles.text, textStyle, colorStyle]}>
-      {childProps.title}
-    </Text>
-  );
-};
-
 const showActionSheet = (
-  directChild: ActionType,
+  child: ActionType,
   rootOnPress: (index: number, nestedAction: Object) => void
 ) => {
-  let nestedChildren = React.Children.toArray(directChild.props.children);
+  let nestedChildren = React.Children.toArray(child.props.children);
   let options = nestedChildren.map(it => it.props.title);
   let styles = nestedChildren.map(it => it.props.style);
-  let destrIndex = styles.indexOf('destructive');
-  let cancelIndex = styles.indexOf('cancel');
-  // todo warn if -1
+  let destructiveButtonIndex = styles.indexOf('destructive');
+  let cancelButtonIndex = styles.indexOf('cancel');
+  let title = child.props.actionSheetTitle;
+  let message = child.props.actionSheetMessage;
+
   ActionSheetIOS.showActionSheetWithOptions(
     {
       options,
-      cancelButtonIndex: cancelIndex,
-      destructiveButtonIndex: destrIndex,
-      title: directChild.props.actionSheetTitle,
-      message: directChild.props.actionSheetMessage,
+      cancelButtonIndex,
+      destructiveButtonIndex,
+      title,
+      message,
     },
     (buttonIndex: number) => {
       let fncToCall =
-        nestedChildren[buttonIndex].props.onPress || directChild.props.onPress || rootOnPress;
+        nestedChildren[buttonIndex].props.onPress || child.props.onPress || rootOnPress;
       fncToCall(buttonIndex, nestedChildren[buttonIndex].props);
     }
   );
