@@ -1,7 +1,8 @@
 /*
  * @flow
  * */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import IoniconIcon from 'react-native-vector-icons/Ionicons';
