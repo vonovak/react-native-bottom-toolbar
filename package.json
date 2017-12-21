@@ -1,6 +1,6 @@
 {
   "name": "react-native-bottom-toolbar",
-  "version": "2.0.2",
+  "version": "2.5.0",
   "description": "Bottom toolbar styled as in iOS, implemented in JS. Configurable text, icons and events.",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,8 @@
     "url": "https://github.com/vonovak/react-native-bottom-toolbar/issues"
   },
   "dependencies": {
-    "react-native-vector-icons": "4.4.2"
+    "react-native-vector-icons": "4.4.3",
+    "react-native-iphone-x-helper": "^1.0.1"
   },
   "homepage": "https://github.com/vonovak/react-native-bottom-toolbar#readme"
 }
