@@ -6,6 +6,10 @@ Breaking changes in 4.0.0: `color` now applies to both icons and text, `size` wa
 
 Breaking change in 3.0.0 - the actions and nested actions are now specified not as props passed to `BottomToolbar` but as its children, similar to `Picker` item in RN.
 
+### Expo demo
+
+[here](https://expo.io/@vonovak/bottom-toolbar-demo), code for the demo is in the `example` folder
+
 ### Installation & usage
 
 `npm i react-native-bottom-toolbar`
