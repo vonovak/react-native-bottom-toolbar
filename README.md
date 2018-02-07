@@ -19,23 +19,23 @@ or
 ```
 import BottomToolbar from 'react-native-bottom-toolbar'
 
-        <BottomToolbar>
-          <BottomToolbar.Action
-            title="Edit"
-            onPress={(index, propsOfThisAction) =>
-              console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
-          />
-          <BottomToolbar.Action
-            title="Copy ULR"
-            onPress={(index, propsOfThisAction) =>
-              console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
-          />
-          <BottomToolbar.Action
-            title="Delete"
-            onPress={(index, propsOfThisAction) =>
-              console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
-          />
-        </BottomToolbar>
+<BottomToolbar>
+  <BottomToolbar.Action
+    title="Edit"
+    onPress={(index, propsOfThisAction) =>
+      console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
+  />
+  <BottomToolbar.Action
+    title="Copy ULR"
+    onPress={(index, propsOfThisAction) =>
+      console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
+  />
+  <BottomToolbar.Action
+    title="Delete"
+    onPress={(index, propsOfThisAction) =>
+      console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
+  />
+</BottomToolbar>
 ```
 
 <img src="https://raw.githubusercontent.com/vonovak/react-native-bottom-toolbar/master/example/one.png" width="500" />
