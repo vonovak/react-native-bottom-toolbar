@@ -1,37 +1,68 @@
 /*
  * @flow
  * */
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import IoniconIcon from 'react-native-vector-icons/Ionicons';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
-import FoundationIcon from 'react-native-vector-icons/Foundation';
-import OcticonIcon from 'react-native-vector-icons/Octicons';
-import ZocialIcon from 'react-native-vector-icons/Zocial';
-import EvilIcon from 'react-native-vector-icons/EvilIcons';
-import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import { View, StyleSheet, TouchableOpacity, Text, ActionSheetIOS } from 'react-native';
 
 // todo be more specific
 type ActionType = Object;
 
-class Action extends React.PureComponent {
+type ActionProps = {
+  title: string,
+  iconName?: string,
+  disabled: boolean,
+  onPress: (number, Object) => void,
+  color?: string,
+  iconSize?: number,
+  IconElement?: React.Node,
+  actionSheetTitle?: string,
+  actionSheetMessage?: string,
+};
+
+class Action extends React.PureComponent<ActionProps> {
   render() {
     return null;
   }
 }
 
-class NestedAction extends React.PureComponent {
+type NestedActionProps = {
+  title: string,
+  onPress: (number, Object) => void,
+  style?: 'cancel' | 'destructive',
+};
+
+class NestedAction extends React.PureComponent<NestedActionProps> {
   render() {
     return null;
   }
 }
 
-export default class BottomToolbar extends React.PureComponent {
+type BottomToolbarProps = {
+  IconComponent: React.ComponentType<*>,
+  iconSize: number,
+  onPress: (number, Object) => void,
+  wrapperStyle?: Object,
+  textStyle?: Object,
+  buttonStyle?: Object,
+  color: string,
+  disabledColor: string,
+  showIf: boolean,
+  children: React.Node,
+};
+
+export default class BottomToolbar extends React.PureComponent<BottomToolbarProps> {
   static Action = Action;
   static NestedAction = NestedAction;
+
+  static defaultProps = {
+    color: '#007AFF',
+    disabledColor: 'grey',
+    iconSize: 28,
+    onPress: (index: number, actionProps: ActionType) => {},
+    wrapperStyle: undefined,
+    showIf: true,
+  };
 
   render() {
     const { onPress, buttonStyle, wrapperStyle, showIf, children } = this.props;
@@ -45,19 +76,19 @@ export default class BottomToolbar extends React.PureComponent {
             if (!child) return null;
 
             const disabled = isDisabled(child);
-            const Element = disabled ? View : TouchableOpacity;
+            const RenderedComponent = disabled ? View : TouchableOpacity;
 
             const childProps = child.props;
             const fnc = () => showActionSheet(child, onPress);
             const onActionPress = (childProps.children && fnc) || childProps.onPress || onPress;
             return (
-              <Element
+              <RenderedComponent
                 style={[styles.buttonDefaults, buttonStyle]}
                 key={`${child.title}`}
                 onPress={() => onActionPress(index, childProps)}
               >
-                {this.renderTabContent(childProps, disabled, index)}
-              </Element>
+                {this.renderTabContent(childProps, disabled)}
+              </RenderedComponent>
             );
           })}
         </View>
@@ -65,11 +96,11 @@ export default class BottomToolbar extends React.PureComponent {
     );
   }
 
-  renderTabContent(childProps: Object, disabled: boolean, index: number) {
-    const { customRenderer } = this.props;
+  renderTabContent(childProps: Object, disabled: boolean) {
+    const { IconElement } = childProps;
 
-    if (customRenderer) {
-      return customRenderer(childProps, index);
+    if (IconElement) {
+      return IconElement;
     } else if (childProps.iconName) {
       return this.renderIcon(childProps, disabled);
     } else {
@@ -78,22 +109,21 @@ export default class BottomToolbar extends React.PureComponent {
   }
 
   renderIcon(childProps: Object, disabled: boolean) {
-    const { font, size, color, disabledColor } = this.props;
-    const Icon = getIconClass(childProps.font || font);
+    const { IconComponent, iconSize, color, disabledColor } = this.props;
 
     return (
-      <Icon
+      <IconComponent
         name={childProps.iconName}
-        size={childProps.size || size}
+        size={childProps.iconSize || iconSize}
         color={disabled ? disabledColor : childProps.color || color}
       />
     );
   }
 
   renderText(childProps: Object, disabled: boolean) {
-    const { textStyle, disabledColor } = this.props;
+    const { textStyle, disabledColor, color } = this.props;
     return (
-      <Text style={[styles.text, textStyle, disabled && { color: disabledColor }]}>
+      <Text style={[styles.text, { color }, textStyle, disabled && { color: disabledColor }]}>
         {childProps.title}
       </Text>
     );
@@ -109,31 +139,6 @@ const isDisabled = (child: ActionType): boolean => {
     return isOnlyCancelActionPresent || disabled;
   } else {
     return disabled;
-  }
-};
-
-const getIconClass = (font: string): ReactClass<*> => {
-  switch (font) {
-    case 'ionicons':
-      return IoniconIcon;
-    case 'material':
-      return MaterialIcon;
-    case 'font-awesome':
-      return AwesomeIcon;
-    case 'evil-icons':
-      return EvilIcon;
-    case 'simple':
-      return SimpleIcon;
-    case 'entypo':
-      return EntypoIcon;
-    case 'foundation':
-      return FoundationIcon;
-    case 'octicons':
-      return OcticonIcon;
-    case 'zocial':
-      return ZocialIcon;
-    default:
-      return IoniconIcon;
   }
 };
 
@@ -167,53 +172,43 @@ const showActionSheet = (
 
 BottomToolbar.propTypes = {
   /*
-   * font family from react-native-vector icons
-   * */
-  font: PropTypes.string,
+     * component from react-native-vector icons
+     * */
+  IconComponent: PropTypes.func,
+  iconSize: PropTypes.number,
   /*
-   * icon size
-   * */
-  size: PropTypes.number,
-  /*
-   * onPress for handling icon or text press
-   * receives (index: number, actionProps: Object)
-   * */
+     * onPress for handling icon or text press
+     * receives (index: number, actionProps: Object)
+     * */
   onPress: PropTypes.func,
   /*
-   * custom styles
-   * */
+     * custom styles
+     * */
   wrapperStyle: PropTypes.object,
   textStyle: PropTypes.object,
   buttonStyle: PropTypes.object,
   color: PropTypes.string,
   disabledColor: PropTypes.string,
   showIf: PropTypes.bool,
-
-  /*
-   * a function that accepts (childProps, index) and returns a component that will be rendered in the toolbar
-   * use this to render you custom content
-   * */
-  customRenderer: PropTypes.func,
-
   children: PropTypes.any.isRequired,
 };
 
 Action.propTypes = {
   /*
-   * the actions:
-   * if onPress, size, color, font are provided in the action, they override the ones passed to the component
-   * */
+     * the actions:
+     * if onPress, size, color, font are provided in the action, they override the ones passed to BottomToolbar
+     * */
   title: PropTypes.string.isRequired,
   iconName: PropTypes.string,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
   color: PropTypes.string,
-  font: PropTypes.string,
-  size: PropTypes.number,
+  iconSize: PropTypes.number,
+  IconElement: PropTypes.object,
 
   /*
-   * for the nested actions that are displayed in an ActionSheet:
-   * */
+     * for the nested actions that are displayed in ActionSheetIOS:
+     * */
   actionSheetTitle: PropTypes.string,
   actionSheetMessage: PropTypes.string,
 };
@@ -222,16 +217,6 @@ NestedAction.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   style: PropTypes.oneOf(['cancel', 'destructive']),
-};
-
-BottomToolbar.defaultProps = {
-  color: '#007AFF',
-  disabledColor: 'grey',
-  font: 'ionicons',
-  size: 28,
-  onPress: (index: number, actionProps: ActionType) => {},
-  wrapperStyle: undefined,
-  showIf: true,
 };
 
 const styles = StyleSheet.create({
