@@ -9,10 +9,11 @@ import { View, StyleSheet, TouchableOpacity, Text, ActionSheetIOS } from 'react-
 type ActionType = Object;
 
 type ActionProps = {
+  IconComponent?: React.ComponentType<*>,
   title: string,
   iconName?: string,
-  disabled: boolean,
-  onPress: (number, Object) => void,
+  disabled?: boolean,
+  onPress?: (number, Object) => void,
   color?: string,
   iconSize?: number,
   IconElement?: React.Node,
@@ -28,7 +29,7 @@ class Action extends React.PureComponent<ActionProps> {
 
 type NestedActionProps = {
   title: string,
-  onPress: (number, Object) => void,
+  onPress?: (number, Object) => void,
   style?: 'cancel' | 'destructive',
 };
 
@@ -39,7 +40,7 @@ class NestedAction extends React.PureComponent<NestedActionProps> {
 }
 
 type BottomToolbarProps = {
-  IconComponent: React.ComponentType<*>,
+  IconComponent?: React.ComponentType<*>,
   iconSize: number,
   onPress: (number, Object) => void,
   wrapperStyle?: Object,
@@ -109,15 +110,17 @@ export default class BottomToolbar extends React.PureComponent<BottomToolbarProp
   }
 
   renderIcon(childProps: Object, disabled: boolean) {
-    const { IconComponent, iconSize, color, disabledColor } = this.props;
+    const { IconComponent: RootIconComponent, iconSize, color, disabledColor } = this.props;
+    const { IconComponent: ChildIconComponent } = childProps;
+    const RenderedIconComponent = ChildIconComponent || RootIconComponent;
 
-    return (
-      <IconComponent
+    return RenderedIconComponent ? (
+      <RenderedIconComponent
         name={childProps.iconName}
         size={childProps.iconSize || iconSize}
         color={disabled ? disabledColor : childProps.color || color}
       />
-    );
+    ) : null;
   }
 
   renderText(childProps: Object, disabled: boolean) {
@@ -205,10 +208,11 @@ Action.propTypes = {
   color: PropTypes.string,
   iconSize: PropTypes.number,
   IconElement: PropTypes.object,
+  IconComponent: PropTypes.func,
 
   /*
-     * for the nested actions that are displayed in ActionSheetIOS:
-     * */
+       * for the nested actions that are displayed in ActionSheetIOS:
+       * */
   actionSheetTitle: PropTypes.string,
   actionSheetMessage: PropTypes.string,
 };
