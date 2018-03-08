@@ -45,53 +45,36 @@ import BottomToolbar from 'react-native-bottom-toolbar'
 The component accepts these props:
 
 ```
-BottomToolbar.propTypes = {
-  /*
-     * component from react-native-vector icons
-     * */
-  IconComponent: PropTypes.func,
-  iconSize: PropTypes.number,
-  /*
-     * onPress for handling icon or text press
-     * receives (index: number, actionProps: Object)
-     * */
-  onPress: PropTypes.func,
-  /*
-     * custom styles
-     * */
-  wrapperStyle: PropTypes.object,
-  textStyle: PropTypes.object,
-  buttonStyle: PropTypes.object,
-  color: PropTypes.string,
-  disabledColor: PropTypes.string,
-  showIf: PropTypes.bool,
-  children: PropTypes.any.isRequired,
+type ActionProps = {
+  IconComponent?: React.ComponentType<*>,
+  title: string,
+  iconName?: string,
+  disabled?: boolean,
+  onPress?: (number, Object) => void,
+  color?: string,
+  iconSize?: number,
+  IconElement?: React.Node,
+  actionSheetTitle?: string,
+  actionSheetMessage?: string,
 };
 
-Action.propTypes = {
-  /*
-     * the actions:
-     * if onPress, size, color, font are provided in the action, they override the ones passed to BottomToolbar
-     * */
-  title: PropTypes.string.isRequired,
-  iconName: PropTypes.string,
-  disabled: PropTypes.bool,
-  onPress: PropTypes.func,
-  color: PropTypes.string,
-  iconSize: PropTypes.number,
-  IconElement: PropTypes.object,
-
-  /*
-     * for the nested actions that are displayed in ActionSheetIOS:
-     * */
-  actionSheetTitle: PropTypes.string,
-  actionSheetMessage: PropTypes.string,
+type NestedActionProps = {
+  title: string,
+  onPress?: (number, Object) => void,
+  style?: 'cancel' | 'destructive',
 };
 
-NestedAction.propTypes = {
-  title: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
-  style: PropTypes.oneOf(['cancel', 'destructive']),
+type BottomToolbarProps = {
+  IconComponent?: React.ComponentType<*>,
+  iconSize: number,
+  onPress: (number, Object) => void,
+  wrapperStyle?: Object,
+  textStyle?: Object,
+  buttonStyle?: Object,
+  color: string,
+  disabledColor: string,
+  showIf: boolean,
+  children: React.Node,
 };
 ```
 
