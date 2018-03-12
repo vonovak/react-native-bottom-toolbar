@@ -4,6 +4,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Text, ActionSheetIOS } from 'react-native';
+import { ViewPropTypes } from 'react-native';
+// import { TextStylePropTypes } from 'react-native';
 
 // todo be more specific
 type ActionType = Object;
@@ -187,9 +189,9 @@ BottomToolbar.propTypes = {
   /*
      * custom styles
      * */
-  wrapperStyle: PropTypes.object,
-  textStyle: PropTypes.object,
-  buttonStyle: PropTypes.object,
+  wrapperStyle: ViewPropTypes.style,
+  textStyle: PropTypes.any,
+  buttonStyle: ViewPropTypes.style,
   color: PropTypes.string,
   disabledColor: PropTypes.string,
   showIf: PropTypes.bool,
