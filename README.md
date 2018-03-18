@@ -1,6 +1,6 @@
 # react-native-bottom-toolbar
 
-Bottom toolbar styled as in iOS, implemented in JS, typed with Flow. Highly configurable with text or icons from `react-native-vector-icons` and nested actions that display in ActionSheetIOS (iOS only). You can also render your own component as content.
+Bottom toolbar styled as in iOS, implemented in JS, typed with Flow. Highly configurable with text or icons (I recommend `react-native-vector-icons`) and nested actions that display in ActionSheetIOS (iOS only). You can also render your own components as content.
 
 Breaking changes in 4.0.0: `color` now applies to both icons and text, `size` was renamed to `iconSize`, `font` was removed, the package now does not have any dependencies, `customRenderer` was replaced with `IconElement` prop.
 
