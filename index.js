@@ -104,6 +104,8 @@ export default class BottomToolbar extends React.PureComponent<BottomToolbarProp
 
     if (IconElement) {
       return IconElement;
+    } else if (childProps.iconName && childProps.title) {
+      return this.renderIconText(childProps, disabled);
     } else if (childProps.iconName) {
       return this.renderIcon(childProps, disabled);
     } else {
@@ -111,8 +113,25 @@ export default class BottomToolbar extends React.PureComponent<BottomToolbarProp
     }
   }
 
+  renderIconText(childProps: Object, disabled: boolean) {
+    const { IconComponent: RootIconComponent, iconSize, color, disabledColor, title } = this.props;
+    const { IconComponent: ChildIconComponent } = childProps;
+    const RenderedIconComponent = ChildIconComponent || RootIconComponent;
+
+    return RenderedIconComponent ? (
+      <View style={{alignItems:'center',margin:5}}>
+        <RenderedIconComponent
+          name={childProps.iconName}
+          size={childProps.iconSize || iconSize}
+          color={disabled ? disabledColor : childProps.color || color}
+        />
+        {this.renderText(childProps, disabled)}
+      </View>
+    ) : null;
+  }
+
   renderIcon(childProps: Object, disabled: boolean) {
-    const { IconComponent: RootIconComponent, iconSize, color, disabledColor } = this.props;
+    const { IconComponent: RootIconComponent, iconSize, color, disabledColor, title } = this.props;
     const { IconComponent: ChildIconComponent } = childProps;
     const RenderedIconComponent = ChildIconComponent || RootIconComponent;
 
@@ -232,7 +251,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 43,
+    height: 50,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: 'grey',
   },
