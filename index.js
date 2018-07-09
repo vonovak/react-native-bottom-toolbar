@@ -5,7 +5,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Text, ActionSheetIOS } from 'react-native';
 import { ViewPropTypes } from 'react-native';
-// import { TextStylePropTypes } from 'react-native';
+import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 // todo be more specific
 type ActionType = Object;
@@ -15,7 +15,7 @@ type ActionProps = {
   title: string,
   iconName?: string,
   disabled?: boolean,
-  onPress?: (number, Object) => void,
+  onPress?: (number, Object) => any,
   color?: string,
   iconSize?: number,
   IconElement?: React.Node,
@@ -31,7 +31,7 @@ class Action extends React.PureComponent<ActionProps> {
 
 type NestedActionProps = {
   title: string,
-  onPress?: (number, Object) => void,
+  onPress?: (number, Object) => any,
   style?: 'cancel' | 'destructive',
 };
 
@@ -44,10 +44,10 @@ class NestedAction extends React.PureComponent<NestedActionProps> {
 type BottomToolbarProps = {
   IconComponent?: React.ComponentType<*>,
   iconSize: number,
-  onPress: (number, Object) => void,
-  wrapperStyle?: Object,
-  textStyle?: Object,
-  buttonStyle?: Object,
+  onPress: (number, Object) => any,
+  wrapperStyle?: StyleObj,
+  textStyle?: StyleObj,
+  buttonStyle?: StyleObj,
   color: string,
   disabledColor: string,
   showIf: boolean,
