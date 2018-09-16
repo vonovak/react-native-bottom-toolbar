@@ -21,6 +21,7 @@ type ActionProps = {
   IconElement?: React.Node,
   actionSheetTitle?: string,
   actionSheetMessage?: string,
+  testID?: string,
 };
 
 class Action extends React.PureComponent<ActionProps> {
@@ -79,19 +80,20 @@ export default class BottomToolbar extends React.PureComponent<BottomToolbarProp
             if (!child) return null;
 
             const disabled = isDisabled(child);
-            const RenderedComponent = disabled ? View : TouchableOpacity;
 
             const childProps = child.props;
             const fnc = () => showActionSheet(child, onPress);
             const onActionPress = (childProps.children && fnc) || childProps.onPress || onPress;
             return (
-              <RenderedComponent
+              <TouchableOpacity
+                disabled={disabled}
                 style={[styles.buttonDefaults, buttonStyle]}
-                key={`${child.title}`}
+                key={String(childProps.title)}
                 onPress={() => onActionPress(index, childProps)}
+                testID={childProps.testID}
               >
                 {this.renderTabContent(childProps, disabled)}
-              </RenderedComponent>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -205,6 +207,7 @@ Action.propTypes = {
      * */
   title: PropTypes.string.isRequired,
   iconName: PropTypes.string,
+  testID: PropTypes.string,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
   color: PropTypes.string,

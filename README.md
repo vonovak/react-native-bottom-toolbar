@@ -62,6 +62,7 @@ type ActionProps = {
   disabled?: boolean,
   onPress?: (number, Object) => any,
   color?: string,
+  testID?: string,
   iconSize?: number,
   actionSheetTitle?: string,
   actionSheetMessage?: string,
