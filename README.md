@@ -45,9 +45,9 @@ type BottomToolbarProps = {
   IconComponent?: React.ComponentType<*>, // use this together with `color` prop and `iconName` from `BottomToolbar.Action`
   iconSize: number,
   onPress: (number, Object) => any,
-  wrapperStyle?: StyleObj,
-  textStyle?: StyleObj,
-  buttonStyle?: StyleObj,
+  wrapperStyle?: ViewStyleProp,
+  textStyle?: ViewStyleProp,
+  buttonStyle?: ViewStyleProp,
   color: string,
   disabledColor: string,
   showIf: boolean,

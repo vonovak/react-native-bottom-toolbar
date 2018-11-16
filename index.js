@@ -5,7 +5,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Text, ActionSheetIOS } from 'react-native';
 import { ViewPropTypes } from 'react-native';
-import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 // todo be more specific
 type ActionType = Object;
@@ -46,9 +46,9 @@ type BottomToolbarProps = {
   IconComponent?: React.ComponentType<*>,
   iconSize: number,
   onPress: (number, Object) => any,
-  wrapperStyle?: StyleObj,
-  textStyle?: StyleObj,
-  buttonStyle?: StyleObj,
+  wrapperStyle?: ViewStyleProp,
+  textStyle?: ViewStyleProp,
+  buttonStyle?: ViewStyleProp,
   color: string,
   disabledColor: string,
   showIf: boolean,
