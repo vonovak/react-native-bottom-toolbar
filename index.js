@@ -75,28 +75,26 @@ export default class BottomToolbar extends React.PureComponent<BottomToolbarProp
 
     return (
       <View style={[styles.wrapper, wrapperStyle]}>
-        <View style={styles.columnWrap}>
-          {React.Children.map(children, (child, index) => {
-            if (!child) return null;
+        {React.Children.map(children, (child, index) => {
+          if (!child) return null;
 
-            const disabled = isDisabled(child);
+          const disabled = isDisabled(child);
 
-            const childProps = child.props;
-            const fnc = () => showActionSheet(child, onPress);
-            const onActionPress = (childProps.children && fnc) || childProps.onPress || onPress;
-            return (
-              <TouchableOpacity
-                disabled={disabled}
-                style={[styles.buttonDefaults, buttonStyle]}
-                key={String(childProps.title)}
-                onPress={() => onActionPress(index, childProps)}
-                testID={childProps.testID}
-              >
-                {this.renderTabContent(childProps, disabled)}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+          const childProps = child.props;
+          const fnc = () => showActionSheet(child, onPress);
+          const onActionPress = (childProps.children && fnc) || childProps.onPress || onPress;
+          return (
+            <TouchableOpacity
+              disabled={disabled}
+              style={[styles.buttonDefaults, buttonStyle]}
+              key={String(childProps.title)}
+              onPress={() => onActionPress(index, childProps)}
+              testID={childProps.testID}
+            >
+              {this.renderTabContent(childProps, disabled)}
+            </TouchableOpacity>
+          );
+        })}
       </View>
     );
   }
@@ -153,13 +151,13 @@ const showActionSheet = (
   child: ActionType,
   rootOnPress: (index: number, nestedAction: Object) => void
 ) => {
-  let nestedChildren = React.Children.toArray(child.props.children);
-  let options = nestedChildren.map(it => it.props.title);
-  let styles = nestedChildren.map(it => it.props.style);
-  let destructiveButtonIndex = styles.indexOf('destructive');
-  let cancelButtonIndex = styles.indexOf('cancel');
-  let title = child.props.actionSheetTitle;
-  let message = child.props.actionSheetMessage;
+  const nestedChildren = React.Children.toArray(child.props.children);
+  const options = nestedChildren.map(it => it.props.title);
+  const styles = nestedChildren.map(it => it.props.style);
+  const destructiveButtonIndex = styles.indexOf('destructive');
+  const cancelButtonIndex = styles.indexOf('cancel');
+  const title = child.props.actionSheetTitle;
+  const message = child.props.actionSheetMessage;
 
   ActionSheetIOS.showActionSheetWithOptions(
     {
@@ -179,18 +177,18 @@ const showActionSheet = (
 
 BottomToolbar.propTypes = {
   /*
-     * component from react-native-vector icons
-     * */
+   * component from react-native-vector icons
+   * */
   IconComponent: PropTypes.func,
   iconSize: PropTypes.number,
   /*
-     * onPress for handling icon or text press
-     * receives (index: number, actionProps: Object)
-     * */
+   * onPress for handling icon or text press
+   * receives (index: number, actionProps: Object)
+   * */
   onPress: PropTypes.func,
   /*
-     * custom styles
-     * */
+   * custom styles
+   * */
   wrapperStyle: ViewPropTypes.style,
   textStyle: PropTypes.any,
   buttonStyle: ViewPropTypes.style,
@@ -202,9 +200,9 @@ BottomToolbar.propTypes = {
 
 Action.propTypes = {
   /*
-     * the actions:
-     * if onPress, size, color, font are provided in the action, they override the ones passed to BottomToolbar
-     * */
+   * the actions:
+   * if onPress, size, color, font are provided in the action, they override the ones passed to BottomToolbar
+   * */
   title: PropTypes.string.isRequired,
   iconName: PropTypes.string,
   testID: PropTypes.string,
@@ -216,8 +214,8 @@ Action.propTypes = {
   IconComponent: PropTypes.func,
 
   /*
-       * for the nested actions that are displayed in ActionSheetIOS:
-       * */
+   * for the nested actions that are displayed in ActionSheetIOS:
+   * */
   actionSheetTitle: PropTypes.string,
   actionSheetMessage: PropTypes.string,
 };
@@ -238,10 +236,6 @@ const styles = StyleSheet.create({
     height: 43,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: 'grey',
-  },
-  columnWrap: {
-    flexDirection: 'row',
-    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
